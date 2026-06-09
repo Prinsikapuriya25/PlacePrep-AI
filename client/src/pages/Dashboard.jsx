@@ -14,6 +14,7 @@ import StatsCard from "../components/dashboard/StatsCard";
 import ProgressChart from "../components/dashboard/ProgressChart";
 import RecentActivity from "../components/dashboard/RecentActivity";
 import Loader from "../components/common/Loader";
+import { Navigate } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useAuthStore();
@@ -28,6 +29,10 @@ const Dashboard = () => {
   });
 
   if (isLoading) return <Loader fullScreen text="Loading dashboard..." />;
+
+  if(user?.role === "admin") {
+    return <Navigate to="/admin" replace />;
+  }
 
   const stats = data?.stats || {};
   const categoryStats = data?.categoryStats || [];

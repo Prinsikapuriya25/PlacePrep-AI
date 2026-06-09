@@ -17,7 +17,7 @@ API.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => Promise.reject(error),
 );
 
 // Response interceptor - handle errors
@@ -29,7 +29,7 @@ API.interceptors.response.use(
       window.location.href = "/login";
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // ─── AUTH ─────────────────────────────────────────────
@@ -44,6 +44,7 @@ export const getLeaderboard = () => API.get("/user/leaderboard");
 export const updateProfile = (data) => API.put("/user/profile", data);
 export const getAllUsers = () => API.get("/user/all");
 export const deleteUser = (id) => API.delete(`/user/${id}`);
+export const getAdminAnalytics = () => API.get("/user/analytics");
 
 // ─── QUIZ ─────────────────────────────────────────────
 export const getAllQuizzes = (params) => API.get("/quiz", { params });
@@ -56,7 +57,8 @@ export const getResultById = (id) => API.get(`/quiz/results/${id}`);
 export const createQuiz = (data) => API.post("/quiz", data);
 export const updateQuiz = (id, data) => API.put(`/quiz/${id}`, data);
 export const deleteQuiz = (id) => API.delete(`/quiz/${id}`);
-export const getAllQuestions = (params) => API.get("/quiz/questions", { params });
+export const getAllQuestions = (params) =>
+  API.get("/quiz/questions", { params });
 export const createQuestion = (data) => API.post("/quiz/questions", data);
 export const deleteQuestion = (id) => API.delete(`/quiz/questions/${id}`);
 
@@ -69,7 +71,8 @@ export const uploadResume = (data) =>
   API.post("/resume/upload", data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
-export const analyzeResume = (id, data) => API.post(`/resume/analyze/${id}`, data);
+export const analyzeResume = (id, data) =>
+  API.post(`/resume/analyze/${id}`, data);
 export const getUserResumes = () => API.get("/resume");
 export const getResumeById = (id) => API.get(`/resume/${id}`);
 export const deleteResume = (id) => API.delete(`/resume/${id}`);

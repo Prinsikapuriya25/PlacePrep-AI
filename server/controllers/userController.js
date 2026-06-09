@@ -1,5 +1,7 @@
 const User = require("../models/User");
 const Result = require("../models/Result");
+const Quiz = require("../models/Quiz");
+const Question = require("../models/Question");
 
 // @desc    Get user dashboard stats
 // @route   GET /api/user/dashboard
@@ -92,7 +94,7 @@ const updateProfile = async (req, res) => {
     const user = await User.findByIdAndUpdate(
       req.user._id,
       { name, avatar },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     res.status(200).json({
@@ -156,10 +158,85 @@ const deleteUser = async (req, res) => {
   }
 };
 
+// @desc    Get admin analytics summary
+// @route   GET /api/user/analytics
+// @access  Private/Admin
+const getAdminAnalytics = async (req, res) => {
+  try {
+    const totalUsers = await User.countDocuments({ role: "student" });
+    const totalQuizzes = await Quiz.countDocuments();
+    const totalQuestions = await Question.countDocuments();
+    const totalAttempts = await Result.countDocuments();
+
+    const averageScoreData = await Result.aggregate([
+      { $group: { _id: null, averageScore: { $avg: "$percentage" } } },
+    ]);
+
+    const categoryPerformance = await Result.aggregate([
+      {
+        $lookup: {
+          from: "quizzes",
+          localField: "quiz",
+          foreignField: "_id",
+          as: "quizData",
+        },
+      },
+      { $unwind: "$quizData" },
+      {
+        $group: {
+          _id: "$quizData.category",
+          averageScore: { $avg: "$percentage" },
+          attempts: { $sum: 1 },
+        },
+      },
+      { $sort: { attempts: -1, averageScore: -1 } },
+    ]);
+
+    const topPerformers = await User.find({ role: "student" })
+      .select("name email progress")
+      .sort({ "progress.averageScore": -1 })
+      .limit(5);
+
+    const userGrowth = await User.aggregate([
+      { $match: { role: "student" } },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$createdAt" },
+            month: { $month: "$createdAt" },
+          },
+          count: { $sum: 1 },
+        },
+      },
+      { $sort: { "_id.year": 1, "_id.month": 1 } },
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalUsers,
+        totalQuizzes,
+        totalQuestions,
+        totalAttempts,
+        averageScore: Math.round(averageScoreData[0]?.averageScore || 0),
+        categoryPerformance,
+        topPerformers,
+        userGrowth,
+      },
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getDashboard,
   getLeaderboard,
   updateProfile,
   getAllUsers,
   deleteUser,
+  getAdminAnalytics,
 };

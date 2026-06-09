@@ -31,12 +31,12 @@ const register = async (req, res) => {
       });
     }
 
-    // Create user
+    // Create user with student role by default for public registration
     const user = await User.create({
       name,
       email,
       password,
-      role: role === "admin" ? "admin" : "student",
+      role: "student",
     });
 
     const token = generateToken(user._id);

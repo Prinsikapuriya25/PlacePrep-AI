@@ -14,7 +14,6 @@ const Register = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -24,7 +23,7 @@ const Register = () => {
         name: data.name,
         email: data.email,
         password: data.password,
-        role: data.role,
+        role: "student",
       });
     } catch (error) {
       console.log(error);
@@ -130,23 +129,6 @@ const Register = () => {
               {errors.password && (
                 <p className="text-red-500 text-xs mt-1">
                   {errors.password.message}
-                </p>
-              )}
-            </div>
-
-            {/* Role */}
-            <div>
-              <label className="input-label">Register As</label>
-              <select
-                className="input-field"
-                {...register("role", { required: "Role is required" })}
-              >
-                <option value="student">Student</option>
-                <option value="admin">Admin</option>
-              </select>
-              {errors.role && (
-                <p className="text-red-500 text-xs mt-1">
-                  {errors.role.message}
                 </p>
               )}
             </div>

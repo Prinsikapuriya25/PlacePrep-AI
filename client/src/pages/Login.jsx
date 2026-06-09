@@ -129,19 +129,6 @@ const Login = () => {
             <span className="text-xs text-gray-400">OR</span>
             <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
           </div>
-
-          {/* Demo Credentials */}
-          <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4 text-sm">
-            <p className="font-semibold text-blue-700 dark:text-blue-300 mb-2">
-              🎯 Demo Credentials
-            </p>
-            <p className="text-blue-600 dark:text-blue-400">
-              Student: rahul@student.com / student123
-            </p>
-            <p className="text-blue-600 dark:text-blue-400">
-              Admin: admin@placeprep.com / admin123
-            </p>
-          </div>
         </div>
 
         {/* Register Link */}

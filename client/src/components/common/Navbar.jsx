@@ -27,13 +27,31 @@ const Navbar = () => {
   const location = useLocation();
 
   const navLinks = [
-    { to: "/dashboard", label: "Dashboard", icon: <LayoutDashboard size={18} /> },
+    {
+      to: "/dashboard",
+      label: "Dashboard",
+      icon: <LayoutDashboard size={18} />,
+    },
     { to: "/quiz", label: "Quizzes", icon: <BookOpen size={18} /> },
     { to: "/mock-interview", label: "Interview", icon: <Mic size={18} /> },
     { to: "/resume", label: "Resume", icon: <FileText size={18} /> },
     { to: "/roadmap", label: "Roadmap", icon: <Map size={18} /> },
     { to: "/leaderboard", label: "Leaderboard", icon: <Trophy size={18} /> },
   ];
+
+  // Hide certain student-facing links when the logged in user is an admin
+  const displayedNavLinks = navLinks.filter((link) => {
+    if (user?.role === "admin") {
+      const blockedForAdmin = [
+        "/quiz",
+        "/mock-interview",
+        "/resume",
+        "/roadmap",
+      ];
+      return !blockedForAdmin.includes(link.to);
+    }
+    return true;
+  });
 
   const isActive = (path) => location.pathname === path;
 
@@ -54,7 +72,7 @@ const Navbar = () => {
           {/* Desktop Nav */}
           {isAuthenticated && (
             <div className="hidden lg:flex items-center gap-1">
-              {navLinks.map((link) => (
+              {displayedNavLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
@@ -137,7 +155,10 @@ const Navbar = () => {
                 <Link to="/login" className="btn-outline py-1.5 px-4 text-sm">
                   Login
                 </Link>
-                <Link to="/register" className="btn-primary py-1.5 px-4 text-sm">
+                <Link
+                  to="/register"
+                  className="btn-primary py-1.5 px-4 text-sm"
+                >
                   Sign Up
                 </Link>
               </div>
@@ -159,7 +180,7 @@ const Navbar = () => {
       {/* Mobile Menu */}
       {isOpen && isAuthenticated && (
         <div className="lg:hidden bg-white dark:bg-dark-100 border-t border-gray-200 dark:border-gray-700 px-4 py-3 space-y-1">
-          {navLinks.map((link) => (
+          {displayedNavLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}

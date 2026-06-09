@@ -34,9 +34,7 @@ const getAllQuizzes = async (req, res) => {
 // @access  Private
 const getQuizById = async (req, res) => {
   try {
-    const quiz = await Quiz.findById(req.params.id).populate(
-      "questions"
-    );
+    const quiz = await Quiz.findById(req.params.id).populate("questions");
 
     if (!quiz) {
       return res
@@ -84,7 +82,13 @@ const createQuiz = async (req, res) => {
 // @access  Private/Admin
 const updateQuiz = async (req, res) => {
   try {
-    const quiz = await Quiz.findByIdAndUpdate(req.params.id, req.body, {
+    const payload = { ...req.body };
+
+    if (Array.isArray(payload.questions)) {
+      payload.totalMarks = payload.questions.length;
+    }
+
+    const quiz = await Quiz.findByIdAndUpdate(req.params.id, payload, {
       new: true,
       runValidators: true,
     });
@@ -145,10 +149,9 @@ const submitQuiz = async (req, res) => {
     let score = 0;
     const evaluatedAnswers = quiz.questions.map((question) => {
       const userAnswer = answers.find(
-        (a) => a.question === question._id.toString()
+        (a) => a.question === question._id.toString(),
       );
-      const isCorrect =
-        userAnswer?.selectedAnswer === question.answer;
+      const isCorrect = userAnswer?.selectedAnswer === question.answer;
       if (isCorrect) score++;
 
       return {
@@ -174,7 +177,7 @@ const submitQuiz = async (req, res) => {
       aiFeedback = await generateQuizFeedback(
         quiz.questions,
         evaluatedAnswers,
-        percentage
+        percentage,
       );
     } catch (err) {
       console.log("AI feedback skipped:", err.message);
