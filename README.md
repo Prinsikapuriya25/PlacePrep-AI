@@ -330,17 +330,6 @@ https://github.com/Prinsikapuriya25/placeprep-ai
 
 ---
 
-# ⭐ Support
-
-If you found this project useful:
-
-⭐ Star the repository
-
-🍴 Fork the project
-
-🚀 Share it with others
-
----
 
 # 📄 License
 
