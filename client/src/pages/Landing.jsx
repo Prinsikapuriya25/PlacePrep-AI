@@ -12,6 +12,9 @@ import {
   Zap,
   Users,
   Star,
+  User,
+  Sparkles,
+  Rocket,
 } from "lucide-react";
 import Navbar from "../components/common/Navbar";
 import Footer from "../components/common/Footer";
@@ -73,24 +76,28 @@ const Landing = () => {
 
   const steps = [
     {
-      step: "01",
-      title: "Create Account",
-      description: "Sign up for free and set up your placement profile.",
+      step: 1,
+      title: "Create Profile",
+      description:
+        "Register and set your placement goals, skills and target job roles.",
     },
     {
-      step: "02",
-      title: "Take Quizzes",
-      description: "Attempt topic-wise quizzes and get AI feedback instantly.",
+      step: 2,
+      title: "Practice & Learn",
+      description:
+        "Solve quizzes, follow roadmaps and strengthen technical concepts.",
     },
     {
-      step: "03",
-      title: "Practice Interviews",
-      description: "Do mock interviews with our AI interviewer anytime.",
+      step: 3,
+      title: "AI Evaluation",
+      description:
+        "Take mock interviews and ATS resume analysis with AI feedback.",
     },
     {
-      step: "04",
-      title: "Get Placed",
-      description: "Track your progress and crack your dream company.",
+      step: 4,
+      title: "Get Placement Ready",
+      description:
+        "Track progress, improve weak areas and confidently crack interviews.",
     },
   ];
 
@@ -99,153 +106,393 @@ const Landing = () => {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-primary-600 via-primary-700 to-purple-700 text-white py-20 px-4">
-        {/* Background Blobs */}
-        <div className="absolute top-0 left-0 w-72 h-72 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-white/5 rounded-full translate-x-1/3 translate-y-1/3" />
+      <section className="relative overflow-hidden py-24 px-4 bg-gradient-to-br from-indigo-700 via-purple-700 to-fuchsia-700 text-white">
+        <div className="absolute top-0 right-0 h-[500px] w-[500px] bg-white/10 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 left-0 h-[400px] w-[400px] bg-white/10 rounded-full blur-3xl" />
 
-        <div className="max-w-5xl mx-auto text-center relative z-10">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <span className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              <Zap size={14} className="text-yellow-300" />
-              AI-Powered Placement Preparation
-            </span>
-          </motion.div>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl md:text-6xl font-bold mb-6 leading-tight"
-          >
-            Crack Your Dream Job
-            <br />
-            <span className="text-yellow-300">with AI Guidance</span>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg md:text-xl text-white/80 mb-8 max-w-2xl mx-auto"
-          >
-            Practice quizzes, mock interviews, resume analysis and personalized
-            roadmaps — all powered by AI to help you land your dream placement.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row gap-3 justify-center"
-          >
-            <button
-              onClick={() => navigate("/register")}
-              className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition-all flex items-center justify-center gap-2"
-            >
-              Get Started Free
-              <ChevronRight size={18} />
-            </button>
-            <button
-              onClick={() => navigate("/login")}
-              className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold py-3 px-8 rounded-lg transition-all border border-white/20"
-            >
-              Login
-            </button>
-          </motion.div>
-
-          {/* Stats */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16 pt-10 border-t border-white/20"
-          >
-            {stats.map((stat, i) => (
-              <div key={i} className="text-center">
-                <p className="text-3xl font-bold text-yellow-300">
-                  {stat.value}
-                </p>
-                <p className="text-white/70 text-sm mt-1">{stat.label}</p>
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left */}
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/10 backdrop-blur-xl px-5 py-2 mb-6">
+                <Zap size={16} />
+                AI Powered Placement Platform
               </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
 
-      {/* Features Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              Everything You Need to Get Placed
-            </h2>
-            <p className="text-gray-500 dark:text-gray-400 max-w-xl mx-auto">
-              A complete AI-powered toolkit to prepare for campus and off-campus
-              placements from day one.
-            </p>
-          </div>
+              <h1 className="text-5xl lg:text-7xl font-black leading-tight">
+                Land Your
+                <span className="block text-yellow-300">Dream Placement</span>
+                With AI
+              </h1>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {features.map((feature, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="card-hover"
-              >
-                <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 ${feature.bg}`}>
-                  {feature.icon}
+              <p className="mt-6 text-xl text-white/80 max-w-xl">
+                Practice quizzes, AI mock interviews, ATS resume analysis and
+                personalized roadmaps built for placement success.
+              </p>
+
+              <div className="flex flex-wrap gap-4 mt-8">
+                <button
+                  onClick={() => navigate("/register")}
+                  className="bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-xl hover:scale-105 transition-all"
+                >
+                  Get Started Free
+                </button>
+
+                <button
+                  onClick={() => navigate("/login")}
+                  className="border border-white/20 bg-white/10 backdrop-blur-xl px-8 py-4 rounded-2xl font-bold"
+                >
+                  Login
+                </button>
+              </div>
+
+              <div className="grid grid-cols-3 gap-6 mt-10">
+                <div>
+                  <h3 className="text-4xl font-black">500+</h3>
+                  <p className="text-white/70">Questions</p>
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
-                  {feature.title}
-                </h3>
-                <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
-                  {feature.description}
+
+                <div>
+                  <h3 className="text-4xl font-black">10+</h3>
+                  <p className="text-white/70">Topics</p>
+                </div>
+
+                <div>
+                  <h3 className="text-4xl font-black">24/7</h3>
+                  <p className="text-white/70">AI Support</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Premium AI Orb */}
+
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              className="relative hidden lg:flex items-center justify-center min-h-[650px]"
+            >
+              {/* Background Glow */}
+              <div className="absolute h-[550px] w-[550px] rounded-full bg-white/10 blur-3xl" />
+              <div className="absolute h-[400px] w-[400px] rounded-full bg-yellow-300/10 blur-3xl" />
+
+              {/* Main Card */}
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{
+                  repeat: Infinity,
+                  duration: 5,
+                }}
+                className="
+      relative 
+      z-10
+      h-[300px]
+      w-[300px]
+      rounded-[48px]
+      bg-white/10
+      backdrop-blur-2xl
+      border border-white/20
+      shadow-[0_30px_80px_rgba(0,0,0,0.25)]
+      flex flex-col items-center justify-center
+    "
+              >
+                <Brain size={100} className="text-yellow-300" />
+
+                <h2 className="mt-6 text-4xl font-black">PlacePrep AI</h2>
+
+                <p className="mt-3 text-center text-white/70 px-8 text-lg">
+                  AI Powered Placement Preparation Platform
                 </p>
               </motion.div>
-            ))}
+
+              {/* Smart Quiz */}
+              <motion.div
+                animate={{ y: [0, -8, 0] }}
+                transition={{ repeat: Infinity, duration: 4 }}
+                className="
+      absolute
+      z-20
+      top-4
+      left-[-40px]
+      w-72
+      h-50
+      rounded-[32px]
+      bg-white/10
+      backdrop-blur-2xl
+      border border-white/20
+      p-7
+      shadow-2xl
+      flex flex-col justify-between
+    "
+              >
+                <BookOpen size={34} className="text-cyan-300" />
+
+                <div>
+                  <h3 className="text-3xl font-bold mb-3">Smart Quizzes</h3>
+
+                  <p className="text-white/70 text-base leading-relaxed">
+                    500+ placement questions with AI feedback.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* AI Interview */}
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 5 }}
+                className="
+      absolute
+      z-20
+      top-8
+      right-[-30px]
+      w-72
+      h-50
+      rounded-[32px]
+      bg-white/10
+      backdrop-blur-2xl
+      border border-white/20
+      p-7
+      shadow-2xl
+      flex flex-col justify-between
+    "
+              >
+                <Mic size={34} className="text-pink-300" />
+
+                <div>
+                  <h3 className="text-3xl font-bold mb-3">AI Interview</h3>
+
+                  <p className="text-white/70 text-base leading-relaxed">
+                    Practice real interview scenarios with AI.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* ATS Resume */}
+              <motion.div
+                animate={{ y: [0, -10, 0] }}
+                transition={{ repeat: Infinity, duration: 4.5 }}
+                className="
+      absolute
+      z-20
+      bottom-14
+      left-[-80px]
+      w-72
+      h-50
+      rounded-[32px]
+      bg-white/10
+      backdrop-blur-2xl
+      border border-white/20
+      p-7
+      shadow-2xl
+      flex flex-col justify-between
+    "
+              >
+                <FileText size={34} className="text-green-300" />
+
+                <div>
+                  <h3 className="text-3xl font-bold mb-3">ATS Resume</h3>
+
+                  <p className="text-white/70 text-base leading-relaxed">
+                    Analyze and optimize your resume instantly.
+                  </p>
+                </div>
+              </motion.div>
+
+              {/* Roadmaps */}
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 5.5 }}
+                className="
+      absolute
+      z-20
+      bottom-10
+      right-[-60px]
+      w-72
+      h-50
+      rounded-[32px]
+      bg-white/10
+      backdrop-blur-2xl
+      border border-white/20
+      p-7
+      shadow-2xl
+      flex flex-col justify-between
+    "
+              >
+                <Map size={34} className="text-yellow-300" />
+
+                <div>
+                  <h3 className="text-3xl font-bold mb-3">Roadmaps</h3>
+
+                  <p className="text-white/70 text-base leading-relaxed">
+                    Personalized learning paths for your dream job.
+                  </p>
+                </div>
+              </motion.div>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* How It Works */}
-      <section className="py-20 px-4 bg-white dark:bg-dark-100">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-              How It Works
+      <section className="py-28 px-4 bg-white dark:bg-dark-100 relative overflow-hidden">
+        {/* Background Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-96 w-96 bg-indigo-500/10 blur-[120px] rounded-full" />
+        <div className="absolute bottom-0 right-0 h-80 w-80 bg-purple-500/10 blur-[120px] rounded-full" />
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <div
+              className="
+          inline-flex items-center gap-2
+          px-5 py-2.5
+          rounded-full
+          bg-indigo-100
+          dark:bg-indigo-900/20
+          text-indigo-600
+          font-semibold
+          text-sm
+          mb-5
+        "
+            >
+              🚀 Simple Process
+            </div>
+
+            <h2 className="text-4xl md:text-6xl font-black text-gray-900 dark:text-white mb-5">
+              How PlacePrep AI Works
             </h2>
-            <p className="text-gray-500 dark:text-gray-400">
-              Get started in minutes and be placement-ready in weeks.
+
+            <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-3xl mx-auto">
+              Follow a structured AI-powered placement journey and maximize your
+              placement success from preparation to placement.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Steps */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
             {steps.map((step, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: index * 0.1 }}
-                className="text-center"
+                transition={{ duration: 0.5, delay: index * 0.12 }}
+                className="
+            relative
+            group
+          "
               >
-                <div className="w-14 h-14 bg-primary-600 text-white rounded-2xl flex items-center justify-center text-xl font-bold mx-auto mb-4">
-                  {step.step}
+                {/* Connector Line */}
+                {index !== steps.length - 1 && (
+                  <div
+                    className="
+                hidden xl:block
+                absolute
+                top-12
+                left-full
+                w-8
+                h-[2px]
+                dark:
+                bg-gradient-to-r
+                from-indigo-500
+                to-purple-500
+                z-0
+              "
+                  />
+                )}
+
+                <div
+                  className="
+    relative
+    h-full
+    rounded-[36px]
+    border border-white/20
+    bg-white/70
+    dark:bg-dark-200/70
+    backdrop-blur-2xl
+    p-8
+    overflow-hidden
+    shadow-[0_20px_60px_rgba(0,0,0,0.08)]
+    hover:shadow-[0_30px_80px_rgba(99,102,241,0.25)]
+    transition-all
+    duration-500
+    hover:-translate-y-3
+  "
+                >
+                  {/* Gradient Glow */}
+                  <div
+                    className="
+      absolute
+      inset-0
+      opacity-0
+      group-hover:opacity-100
+      transition-all
+      duration-500
+      bg-gradient-to-br
+      from-indigo-500/5
+      via-purple-500/5
+      to-pink-500/5
+    "
+                  />
+
+                  {/* Step Badge */}
+                  <div
+                    className="
+      absolute
+      top-5
+      right-5
+      h-10
+      w-10
+      rounded-full
+      dark: bg-gradient-to-r
+      from-indigo-600
+      to-purple-600
+      text-white
+      flex
+      items-center
+      justify-center
+      font-bold
+      text-sm
+      shadow-lg
+    "
+                  >
+                    0{step.step}
+                  </div>
+
+                  {/* Icon */}
+                  <div
+                    className="
+      h-20
+      w-20
+      rounded-3xl
+      bg-gradient-to-br
+      from-indigo-600
+      via-purple-600
+      to-fuchsia-600
+      flex
+      items-center
+      justify-center
+      text-white
+      shadow-[0_20px_40px_rgba(99,102,241,0.35)]
+      mb-8
+    "
+                  >
+                    {index === 0 && <User size={34} />}
+                    {index === 1 && <BookOpen size={34} />}
+                    {index === 2 && <Brain size={34} />}
+                    {index === 3 && <Trophy size={34} />}
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+                    {step.title}
+                  </h3>
+
+                  <p className="text-gray-500 dark:text-gray-400 leading-8 text-[15px]">
+                    {step.description}
+                  </p>
+
+                  <div className="mt-6 h-1 w-12 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600" />
                 </div>
-                <h4 className="font-semibold text-gray-800 dark:text-white mb-2">
-                  {step.title}
-                </h4>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
-                  {step.description}
-                </p>
               </motion.div>
             ))}
           </div>
@@ -253,35 +500,115 @@ const Landing = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="py-28 px-4 relative overflow-hidden">
+        {/* Background Glow */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 h-96 w-96 bg-indigo-500/20 blur-[120px] rounded-full" />
+
+        <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="bg-gradient-to-br from-primary-600 to-purple-600 rounded-2xl p-12 text-white"
+            className="
+        relative
+        overflow-hidden
+        rounded-[40px]
+        bg-gradient-to-r
+        from-indigo-600
+        via-purple-600
+        to-fuchsia-600
+        p-12 md:p-20
+        text-white
+        shadow-[0_30px_80px_rgba(99,102,241,0.35)]
+      "
           >
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Ready to Start Preparing?
-            </h2>
-            <p className="text-white/80 mb-8 text-lg">
-              Join thousands of students already using PlacePrep AI to crack
-              their placements.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={() => navigate("/register")}
-                className="bg-white text-primary-700 hover:bg-gray-100 font-bold py-3 px-8 rounded-lg transition-all flex items-center justify-center gap-2"
+            {/* Decorative Glow */}
+            <div className="absolute top-0 right-0 h-80 w-80 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 left-0 h-72 w-72 bg-white/10 rounded-full blur-3xl" />
+
+            <div className="relative z-10 text-center">
+              <div
+                className="
+            inline-flex
+            items-center
+            gap-2
+            px-5 py-2
+            rounded-full
+            bg-white/15
+            backdrop-blur-xl
+            border border-white/20
+            mb-6
+          "
               >
-                <Star size={18} />
-                Get Started Free
-              </button>
-              <button
-                onClick={() => navigate("/login")}
-                className="bg-white/10 hover:bg-white/20 text-white font-bold py-3 px-8 rounded-lg transition-all border border-white/20"
-              >
-                Already have an account?
-              </button>
+                <Sparkles size={16} />
+                Trusted by Placement Aspirants
+              </div>
+
+              <h2 className="text-4xl md:text-6xl font-black leading-tight mb-6">
+                Ready To Crack
+                <br />
+                Your Dream Placement?
+              </h2>
+
+              <p className="max-w-2xl mx-auto text-white/80 text-lg md:text-xl mb-10">
+                Practice quizzes, AI mock interviews, ATS resume analysis and
+                personalized roadmaps — all in one platform.
+              </p>
+
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-8 max-w-xl mx-auto mb-10">
+                <div>
+                  <h3 className="text-4xl font-black">500+</h3>
+                  <p className="text-white/70 text-sm">Questions</p>
+                </div>
+
+                <div>
+                  <h3 className="text-4xl font-black">10+</h3>
+                  <p className="text-white/70 text-sm">Domains</p>
+                </div>
+
+                <div>
+                  <h3 className="text-4xl font-black">24/7</h3>
+                  <p className="text-white/70 text-sm">AI Support</p>
+                </div>
+              </div>
+
+              {/* Buttons */}
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <button
+                  onClick={() => navigate("/register")}
+                  className="
+              bg-white
+              text-indigo-700
+              px-8 py-4
+              rounded-2xl
+              font-bold
+              shadow-xl
+              hover:scale-105
+              transition-all
+              flex items-center justify-center gap-2
+            "
+                >
+                  <Rocket size={18} />
+                  Get Started Free
+                </button>
+
+                <button
+                  onClick={() => navigate("/login")}
+                  className="
+              bg-white/10
+              backdrop-blur-xl
+              border border-white/20
+              px-8 py-4
+              rounded-2xl
+              font-bold
+              hover:bg-white/20
+              transition-all
+            "
+                >
+                  Login
+                </button>
+              </div>
             </div>
           </motion.div>
         </div>

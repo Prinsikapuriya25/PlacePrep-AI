@@ -56,29 +56,57 @@ const Navbar = () => {
   const isActive = (path) => location.pathname === path;
 
   return (
-    <nav className="bg-white dark:bg-dark-100 shadow-md sticky top-0 z-50">
+    <nav
+      className="
+      sticky top-0 z-50
+      border-b border-gray-200/50 dark:border-gray-700/50
+      bg-white/80 dark:bg-dark-100/80
+      backdrop-blur-xl
+      shadow-sm
+    "
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2">
-            <div className="bg-primary-600 p-2 rounded-lg">
+          <Link to="/" className="flex items-center gap-3 group">
+            <div
+              className="
+              h-11 w-11
+              rounded-2xl
+              bg-gradient-to-r
+              from-indigo-600
+              to-purple-600
+              flex items-center justify-center
+              shadow-lg
+              group-hover:scale-105
+              transition-all
+            "
+            >
               <Brain size={22} className="text-white" />
             </div>
-            <span className="text-xl font-bold text-gradient">
-              PlacePrep AI
-            </span>
+
+            <div>
+              <h1 className="text-xl font-black tracking-tight">
+                PlacePrep
+                <span className="text-indigo-600">AI</span>
+              </h1>
+
+              <p className="text-[10px] text-gray-500 dark:text-gray-400">
+                Career Acceleration Platform
+              </p>
+            </div>
           </Link>
 
           {/* Desktop Nav */}
           {isAuthenticated && (
-            <div className="hidden lg:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-2">
               {displayedNavLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                     isActive(link.to)
-                      ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400"
+                      ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg"
                       : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
                   }`}
                 >
@@ -86,16 +114,17 @@ const Navbar = () => {
                   {link.label}
                 </Link>
               ))}
+
               {user?.role === "admin" && (
                 <Link
                   to="/admin"
-                  className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all duration-300 ${
                     isActive("/admin")
-                      ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600"
-                      : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      ? "bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg"
+                      : "bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300"
                   }`}
                 >
-                  <Settings size={18} />
+                  <Settings size={16} />
                   Admin
                 </Link>
               )}
@@ -110,39 +139,53 @@ const Navbar = () => {
               <div className="relative">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
+                  className="flex items-center gap-3 rounded-xl px-2 py-1.5 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all"
                 >
-                  <div className="w-8 h-8 bg-primary-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                  <div
+                    className="
+                    h-10 w-10
+                    rounded-xl
+                    bg-gradient-to-r
+                    from-indigo-600
+                    to-purple-600
+                    flex items-center justify-center
+                    text-white
+                    font-bold
+                    shadow-lg
+                  "
+                  >
                     {user?.name?.charAt(0).toUpperCase()}
                   </div>
-                  <span className="hidden md:block text-sm font-medium text-gray-700 dark:text-gray-300">
+
+                  <span className="hidden md:block text-sm font-semibold text-gray-700 dark:text-gray-300">
                     {user?.name}
                   </span>
                 </button>
 
-                {/* Dropdown */}
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-dark-100 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 py-1 z-50">
-                    <div className="px-4 py-2 border-b border-gray-200 dark:border-gray-700">
-                      <p className="text-sm font-semibold text-gray-800 dark:text-white">
+                  <div className="absolute right-0 mt-3 w-64 rounded-3xl border border-gray-200 dark:border-gray-700 bg-white/95 dark:bg-dark-100/95 backdrop-blur-xl shadow-2xl overflow-hidden z-50">
+                    <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700">
+                      <p className="font-semibold text-gray-800 dark:text-white">
                         {user?.name}
                       </p>
                       <p className="text-xs text-gray-500">{user?.email}</p>
                     </div>
+
                     <Link
                       to="/dashboard"
                       onClick={() => setDropdownOpen(false)}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                      className="flex items-center gap-3 px-5 py-3 text-sm hover:bg-gray-100 dark:hover:bg-gray-800"
                     >
                       <User size={16} />
                       Profile
                     </Link>
+
                     <button
                       onClick={() => {
                         setDropdownOpen(false);
                         handleLogout();
                       }}
-                      className="flex items-center gap-2 px-4 py-2 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 w-full text-left"
+                      className="flex items-center gap-3 px-5 py-3 text-sm text-red-600 hover:bg-red-50 dark:hover:bg-red-900/20 w-full text-left"
                     >
                       <LogOut size={16} />
                       Logout
@@ -152,19 +195,16 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="flex items-center gap-2">
-                <Link to="/login" className="btn-outline py-1.5 px-4 text-sm">
+                <Link to="/login" className="btn-outline py-2 px-4 text-sm">
                   Login
                 </Link>
-                <Link
-                  to="/register"
-                  className="btn-primary py-1.5 px-4 text-sm"
-                >
+
+                <Link to="/register" className="btn-primary py-2 px-4 text-sm">
                   Sign Up
                 </Link>
               </div>
             )}
 
-            {/* Mobile menu button */}
             {isAuthenticated && (
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -179,27 +219,28 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && isAuthenticated && (
-        <div className="lg:hidden bg-white dark:bg-dark-100 border-t border-gray-200 dark:border-gray-700 px-4 py-3 space-y-1">
+        <div className="lg:hidden border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-100 px-4 py-4 space-y-2">
           {displayedNavLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
               onClick={() => setIsOpen(false)}
-              className={`flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all ${
                 isActive(link.to)
-                  ? "bg-primary-50 dark:bg-primary-900/20 text-primary-600"
-                  : "text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+                  ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white"
+                  : "hover:bg-gray-100 dark:hover:bg-gray-800"
               }`}
             >
               {link.icon}
               {link.label}
             </Link>
           ))}
+
           {user?.role === "admin" && (
             <Link
               to="/admin"
               onClick={() => setIsOpen(false)}
-              className="flex items-center gap-2 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="flex items-center gap-3 px-4 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium"
             >
               <Settings size={18} />
               Admin

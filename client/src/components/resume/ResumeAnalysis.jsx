@@ -2,12 +2,17 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import {
   FileText,
-  CheckCircle,
+  CheckCircle2,
   XCircle,
   Loader2,
   Star,
   Tag,
   RefreshCw,
+  Brain,
+  TrendingUp,
+  Award,
+  Sparkles,
+  AlertTriangle,
 } from "lucide-react";
 import { analyzeResume } from "../../api/axios";
 import toast from "react-hot-toast";
@@ -20,12 +25,19 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
   const handleAnalyze = async () => {
     try {
       setIsAnalyzing(true);
-      const res = await analyzeResume(resume._id, { resumeText });
+
+      const res = await analyzeResume(resume._id, {
+        resumeText,
+      });
+
       toast.success("Resume analyzed successfully!");
-      if (onAnalysisComplete) onAnalysisComplete(res.data.data);
+
+      if (onAnalysisComplete) {
+        onAnalysisComplete(res.data.data);
+      }
     } catch (error) {
       toast.error(
-        error.response?.data?.message || "Analysis failed, please try again"
+        error.response?.data?.message || "Analysis failed, please try again",
       );
     } finally {
       setIsAnalyzing(false);
@@ -38,84 +50,136 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
     return "text-red-500";
   };
 
-  // Show analysis results if already analyzed
+  const getScoreGradient = (score) => {
+    if (score >= 80) return "from-green-500 to-emerald-600";
+
+    if (score >= 60) return "from-yellow-500 to-orange-500";
+
+    return "from-red-500 to-rose-600";
+  };
+
   if (resume.aiScore > 0) {
     return (
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="space-y-4"
+        initial={{
+          opacity: 0,
+          y: 20,
+        }}
+        animate={{
+          opacity: 1,
+          y: 0,
+        }}
+        className="space-y-6"
       >
-        {/* Score Card */}
-        <div className="card text-center">
-          <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-            ATS Score
-          </h3>
-          <div className="relative w-28 h-28 mx-auto mb-4">
-            <svg className="w-28 h-28 -rotate-90" viewBox="0 0 100 100">
-              <circle
-                cx="50"
-                cy="50"
-                r="40"
-                fill="none"
-                stroke="#e5e7eb"
-                strokeWidth="10"
-              />
-              <circle
-                cx="50"
-                cy="50"
-                r="40"
-                fill="none"
-                stroke={
-                  resume.aiScore >= 80
-                    ? "#22c55e"
-                    : resume.aiScore >= 60
-                    ? "#eab308"
-                    : "#ef4444"
-                }
-                strokeWidth="10"
-                strokeDasharray={`${(resume.aiScore / 100) * 251} 251`}
-                strokeLinecap="round"
-              />
-            </svg>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <span
-                className={`text-2xl font-bold ${getScoreColor(resume.aiScore)}`}
+        {/* Hero Score Card */}
+        <div
+          className={`
+            relative overflow-hidden
+            rounded-[32px]
+            bg-gradient-to-r
+            ${getScoreGradient(resume.aiScore)}
+            p-8
+            text-white
+            shadow-2xl
+          `}
+        >
+          <div className="absolute top-0 right-0 h-72 w-72 rounded-full bg-white/10 blur-3xl" />
+          <div className="absolute bottom-0 left-0 h-52 w-52 rounded-full bg-white/10 blur-3xl" />
+
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-white/20 px-4 py-2 backdrop-blur-md mb-4">
+                <Sparkles size={16} />
+                ATS Resume Analysis
+              </div>
+
+              <h2 className="text-4xl font-black">ATS Score Report</h2>
+
+              <p className="mt-3 text-white/80 max-w-xl">
+                AI-powered resume evaluation based on ATS standards, recruiter
+                expectations and placement readiness.
+              </p>
+
+              <button
+                onClick={() => setShowManual(true)}
+                className="
+                  mt-5
+                  inline-flex items-center gap-2
+                  rounded-2xl
+                  bg-white/20
+                  px-4 py-3
+                  font-medium
+                  backdrop-blur-md
+                "
               >
-                {resume.aiScore}
-              </span>
+                <RefreshCw size={16} />
+                Re-Analyze Resume
+              </button>
+            </div>
+
+            {/* Score Circle */}
+            <div className="relative">
+              <div className="h-44 w-44 rounded-full border border-white/20 bg-white/10 backdrop-blur-xl flex flex-col items-center justify-center">
+                <span className="text-5xl font-black">{resume.aiScore}</span>
+
+                <span className="text-white/80 text-sm">ATS Score</span>
+              </div>
             </div>
           </div>
-          <p className="text-gray-500 dark:text-gray-400 text-sm px-4">
-            {resume.overallFeedback}
-          </p>
-
-          {/* Re-analyze button */}
-          <button
-            onClick={() => setShowManual(true)}
-            className="mt-4 text-sm text-primary-600 hover:underline flex items-center gap-1 mx-auto"
-          >
-            <RefreshCw size={14} /> Re-analyze
-          </button>
         </div>
 
-        {/* Manual re-analyze */}
+        {/* Summary */}
+        <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-200 p-6 shadow-xl">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-12 w-12 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 flex items-center justify-center text-white">
+              <Brain size={22} />
+            </div>
+
+            <div>
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                AI Summary
+              </h3>
+
+              <p className="text-sm text-gray-500">
+                Resume evaluation overview
+              </p>
+            </div>
+          </div>
+
+          <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
+            {resume.overallFeedback}
+          </p>
+        </div>
+
+        {/* Re Analyze */}
         {showManual && (
-          <div className="card">
-            <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-              Paste resume text to re-analyze:
-            </p>
+          <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-200 p-6 shadow-xl">
+            <h3 className="font-bold text-gray-900 dark:text-white mb-4">
+              Re-Analyze Resume
+            </h3>
+
             <textarea
               value={resumeText}
               onChange={(e) => setResumeText(e.target.value)}
-              placeholder="Paste your resume content here..."
-              rows={6}
-              className="input-field resize-none text-sm mb-3"
+              rows={8}
+              placeholder="Paste updated resume text..."
+              className="input-field resize-none mb-4"
             />
+
             <button
               onClick={handleAnalyze}
               disabled={isAnalyzing || !resumeText.trim()}
-              className="btn-primary w-full flex items-center justify-center gap-2"
+              className="
+                w-full
+                rounded-2xl
+                bg-gradient-to-r
+                from-indigo-600
+                to-purple-600
+                py-3
+                text-white
+                font-semibold
+                flex items-center justify-center gap-2
+              "
             >
               {isAnalyzing ? (
                 <>
@@ -125,27 +189,75 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
               ) : (
                 <>
                   <Star size={18} />
-                  Re-Analyze
+                  Re-Analyze Resume
                 </>
               )}
             </button>
           </div>
         )}
 
-        {/* Sections Check */}
-        <div className="card">
-          <h4 className="font-semibold text-gray-800 dark:text-white mb-3">
+        {/* Stats */}
+        <div className="grid md:grid-cols-3 gap-5">
+          <div className="rounded-3xl bg-white dark:bg-dark-200 border border-gray-200 dark:border-gray-700 p-6 shadow-xl">
+            <Award className="text-green-600 mb-3" size={24} />
+            <h4 className="font-semibold text-gray-900 dark:text-white">
+              Resume Score
+            </h4>
+            <p
+              className={`text-4xl font-black mt-2 ${getScoreColor(
+                resume.aiScore,
+              )}`}
+            >
+              {resume.aiScore}
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white dark:bg-dark-200 border border-gray-200 dark:border-gray-700 p-6 shadow-xl">
+            <CheckCircle2 className="text-green-600 mb-3" size={24} />
+            <h4 className="font-semibold text-gray-900 dark:text-white">
+              Keywords Found
+            </h4>
+            <p className="text-4xl font-black mt-2 text-green-600">
+              {resume.keywords?.found?.length || 0}
+            </p>
+          </div>
+
+          <div className="rounded-3xl bg-white dark:bg-dark-200 border border-gray-200 dark:border-gray-700 p-6 shadow-xl">
+            <AlertTriangle className="text-red-600 mb-3" size={24} />
+            <h4 className="font-semibold text-gray-900 dark:text-white">
+              Missing Keywords
+            </h4>
+            <p className="text-4xl font-black mt-2 text-red-600">
+              {resume.keywords?.missing?.length || 0}
+            </p>
+          </div>
+        </div>
+
+        {/* Sections */}
+        <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-200 p-6 shadow-xl">
+          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-5">
             Resume Sections
-          </h4>
-          <div className="grid grid-cols-2 gap-2">
+          </h3>
+
+          <div className="grid md:grid-cols-2 gap-4">
             {Object.entries(resume.sections || {}).map(([key, value]) => (
-              <div key={key} className="flex items-center gap-2">
+              <div
+                key={key}
+                className="
+                  flex items-center gap-3
+                  rounded-2xl
+                  border border-gray-100
+                  dark:border-gray-700
+                  p-4
+                "
+              >
                 {value ? (
-                  <CheckCircle size={16} className="text-green-500" />
+                  <CheckCircle2 size={20} className="text-green-500" />
                 ) : (
-                  <XCircle size={16} className="text-red-500" />
+                  <XCircle size={20} className="text-red-500" />
                 )}
-                <span className="text-sm text-gray-600 dark:text-gray-400 capitalize">
+
+                <span className="font-medium capitalize text-gray-700 dark:text-gray-300">
                   {key.replace("has", "")}
                 </span>
               </div>
@@ -154,34 +266,50 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
         </div>
 
         {/* Keywords */}
-        <div className="card">
-          <h4 className="font-semibold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-            <Tag size={16} /> Keywords
-          </h4>
-          <div className="mb-3">
-            <p className="text-xs font-medium text-green-600 mb-2">
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div className="rounded-3xl bg-green-50 dark:bg-green-900/20 p-6">
+            <h3 className="font-bold text-green-700 dark:text-green-300 mb-4">
               ✅ Found Keywords
-            </p>
+            </h3>
+
             <div className="flex flex-wrap gap-2">
-              {resume.keywords?.found?.map((kw, i) => (
+              {resume.keywords?.found?.map((kw, index) => (
                 <span
-                  key={i}
-                  className="text-xs bg-green-100 dark:bg-green-900/20 text-green-700 dark:text-green-300 px-2 py-1 rounded-full"
+                  key={index}
+                  className="
+                      rounded-full
+                      bg-green-100
+                      dark:bg-green-900/40
+                      px-3 py-1
+                      text-sm
+                      text-green-700
+                      dark:text-green-300
+                    "
                 >
                   {kw}
                 </span>
               ))}
             </div>
           </div>
-          <div>
-            <p className="text-xs font-medium text-red-600 mb-2">
+
+          <div className="rounded-3xl bg-red-50 dark:bg-red-900/20 p-6">
+            <h3 className="font-bold text-red-700 dark:text-red-300 mb-4">
               ❌ Missing Keywords
-            </p>
+            </h3>
+
             <div className="flex flex-wrap gap-2">
-              {resume.keywords?.missing?.map((kw, i) => (
+              {resume.keywords?.missing?.map((kw, index) => (
                 <span
-                  key={i}
-                  className="text-xs bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-300 px-2 py-1 rounded-full"
+                  key={index}
+                  className="
+                      rounded-full
+                      bg-red-100
+                      dark:bg-red-900/40
+                      px-3 py-1
+                      text-sm
+                      text-red-700
+                      dark:text-red-300
+                    "
                 >
                   {kw}
                 </span>
@@ -191,22 +319,35 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
         </div>
 
         {/* Suggestions */}
-        <div className="card">
-          <h4 className="font-semibold text-gray-800 dark:text-white mb-3 flex items-center gap-2">
-            <Star size={16} /> Improvement Suggestions
-          </h4>
-          <div className="space-y-3">
-            {resume.suggestions?.map((s, i) => (
+        <div className="rounded-3xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-dark-200 p-6 shadow-xl">
+          <div className="flex items-center gap-3 mb-5">
+            <TrendingUp size={22} className="text-indigo-600" />
+
+            <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+              Improvement Suggestions
+            </h3>
+          </div>
+
+          <div className="space-y-4">
+            {resume.suggestions?.map((item, index) => (
               <div
-                key={i}
-                className="flex items-start gap-3 p-3 bg-blue-50 dark:bg-blue-900/20 rounded-lg"
+                key={index}
+                className="
+                    rounded-2xl
+                    bg-indigo-50
+                    dark:bg-indigo-900/20
+                    p-4
+                  "
               >
-                <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-100 dark:bg-blue-900/40 px-2 py-0.5 rounded-full whitespace-nowrap">
-                  {s.category}
-                </span>
-                <p className="text-sm text-blue-700 dark:text-blue-300">
-                  {s.message}
-                </p>
+                <div className="flex items-start gap-3">
+                  <span className="rounded-full bg-indigo-100 dark:bg-indigo-900/40 px-3 py-1 text-xs font-semibold text-indigo-600">
+                    {item.category}
+                  </span>
+
+                  <p className="text-sm text-indigo-700 dark:text-indigo-300">
+                    {item.message}
+                  </p>
+                </div>
               </div>
             ))}
           </div>
@@ -215,44 +356,74 @@ const ResumeAnalysis = ({ resume, onAnalysisComplete }) => {
     );
   }
 
-  // Show manual input if auto-analysis didn't happen
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="card"
+      initial={{
+        opacity: 0,
+        y: 20,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+      className="
+        rounded-[32px]
+        border border-gray-200
+        dark:border-gray-700
+        bg-white
+        dark:bg-dark-200
+        p-8
+        shadow-2xl
+      "
     >
-      <div className="flex items-center gap-2 mb-2">
-        <FileText size={20} className="text-primary-600" />
-        <h3 className="text-lg font-semibold text-gray-800 dark:text-white">
-          Analyze Resume
-        </h3>
+      <div className="flex items-center gap-3 mb-6">
+        <div className="h-14 w-14 rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white flex items-center justify-center">
+          <FileText size={24} />
+        </div>
+
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
+            Resume Analysis
+          </h2>
+
+          <p className="text-gray-500">Analyze your resume using AI</p>
+        </div>
       </div>
 
-      <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-3 mb-4">
+      <div className="rounded-2xl bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 p-4 mb-5">
         <p className="text-sm text-yellow-700 dark:text-yellow-300">
-          ⚠️ Auto-analysis failed or resume text could not be extracted.
-          Please paste your resume text below for manual analysis.
+          Auto-analysis failed. Paste your resume content below for AI-powered
+          ATS analysis.
         </p>
       </div>
 
       <textarea
         value={resumeText}
         onChange={(e) => setResumeText(e.target.value)}
-        placeholder="Paste your resume content here... (Copy all text from your resume)"
         rows={10}
-        className="input-field resize-none text-sm mb-4"
+        placeholder="Paste your resume content here..."
+        className="input-field resize-none mb-5"
       />
 
       <button
         onClick={handleAnalyze}
         disabled={isAnalyzing || !resumeText.trim()}
-        className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
+        className="
+          w-full
+          rounded-2xl
+          bg-gradient-to-r
+          from-indigo-600
+          to-purple-600
+          py-4
+          text-white
+          font-semibold
+          flex items-center justify-center gap-2
+        "
       >
         {isAnalyzing ? (
           <>
             <Loader2 size={18} className="animate-spin" />
-            Analyzing with AI...
+            Analyzing Resume...
           </>
         ) : (
           <>

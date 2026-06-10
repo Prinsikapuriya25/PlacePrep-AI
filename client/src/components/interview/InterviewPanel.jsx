@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Send, Loader2, StopCircle } from "lucide-react";
+import { Send, Loader2, Sparkles, Brain, Trophy } from "lucide-react";
 import ChatBubble from "./ChatBubble";
 import { startInterview, answerInterview } from "../../api/axios";
 import toast from "react-hot-toast";
@@ -12,10 +12,13 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
   const [isStarted, setIsStarted] = useState(false);
   const [questionNumber, setQuestionNumber] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
+
   const messagesEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
   };
 
   useEffect(() => {
@@ -25,16 +28,22 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
   const handleStart = async () => {
     try {
       setIsLoading(true);
-      const res = await startInterview({ jobRole, difficulty });
+
+      const res = await startInterview({
+        jobRole,
+        difficulty,
+      });
+
       const interviewerMessage = {
         role: "interviewer",
         content: res.data.data.message,
       };
+
       setMessages([interviewerMessage]);
       setIsStarted(true);
       setQuestionNumber(1);
     } catch (error) {
-      toast.error("Failed to start interview. Check your OpenAI API key.");
+      toast.error("Failed to start interview. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -65,11 +74,15 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
       };
 
       setMessages((prev) => [...prev, interviewerMessage]);
+
       setQuestionNumber((prev) => prev + 1);
 
       if (res.data.data.isComplete) {
         setIsComplete(true);
-        if (onComplete) onComplete();
+
+        if (onComplete) {
+          onComplete();
+        }
       }
     } catch (error) {
       toast.error("Failed to get response. Please try again.");
@@ -85,45 +98,76 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
     }
   };
 
-  // Not started yet
   if (!isStarted) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="card text-center py-12"
+        className="
+          rounded-[32px]
+          border border-gray-200 dark:border-gray-700
+          bg-white dark:bg-dark-200
+          shadow-2xl
+          p-10
+          text-center
+        "
       >
-        <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-full flex items-center justify-center mx-auto mb-4">
-          <span className="text-3xl">🎙️</span>
+        <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-r from-indigo-600 to-purple-600 shadow-xl">
+          <Brain size={36} className="text-white" />
         </div>
-        <h3 className="text-xl font-bold text-gray-800 dark:text-white mb-2">
-          Ready for your Mock Interview?
-        </h3>
-        <p className="text-gray-500 dark:text-gray-400 mb-2 text-sm">
-          Role: <span className="font-semibold text-primary-600">{jobRole}</span>
+
+        <h2 className="text-3xl font-black text-gray-900 dark:text-white">
+          AI Mock Interview
+        </h2>
+
+        <p className="mt-3 text-gray-500 dark:text-gray-400">
+          Practice real interview questions powered by AI.
         </p>
-        <p className="text-gray-500 dark:text-gray-400 mb-6 text-sm">
-          Difficulty:{" "}
-          <span className="font-semibold text-primary-600 capitalize">
-            {difficulty}
-          </span>
-        </p>
-        <p className="text-gray-400 dark:text-gray-500 text-xs mb-6 max-w-sm mx-auto">
-          You will be asked 5 questions by an AI interviewer. Answer each
-          question thoughtfully. Press Enter or click Send to submit.
-        </p>
+
+        <div className="mt-8 grid grid-cols-2 gap-4 max-w-md mx-auto">
+          <div className="rounded-2xl bg-gray-50 dark:bg-dark-300 p-4">
+            <p className="text-xs text-gray-500">Role</p>
+            <h4 className="font-bold text-indigo-600">{jobRole}</h4>
+          </div>
+
+          <div className="rounded-2xl bg-gray-50 dark:bg-dark-300 p-4">
+            <p className="text-xs text-gray-500">Difficulty</p>
+            <h4 className="font-bold text-purple-600 capitalize">
+              {difficulty}
+            </h4>
+          </div>
+        </div>
+
+        <div className="mt-8 rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 p-5 text-sm text-gray-600 dark:text-gray-300">
+          You'll answer 5 AI-generated questions. Press Enter to submit answers.
+        </div>
+
         <button
           onClick={handleStart}
           disabled={isLoading}
-          className="btn-primary px-8 py-3"
+          className="
+            mt-8
+            inline-flex items-center gap-2
+            rounded-2xl
+            bg-gradient-to-r
+            from-indigo-600
+            to-purple-600
+            px-8 py-4
+            text-white
+            font-semibold
+            shadow-xl
+          "
         >
           {isLoading ? (
-            <span className="flex items-center gap-2">
+            <>
               <Loader2 size={18} className="animate-spin" />
               Starting...
-            </span>
+            </>
           ) : (
-            "Start Interview"
+            <>
+              <Sparkles size={18} />
+              Start Interview
+            </>
           )}
         </button>
       </motion.div>
@@ -131,56 +175,94 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
   }
 
   return (
-    <div className="card flex flex-col h-[600px]">
+    <div
+      className="
+        rounded-[32px]
+        border border-gray-200 dark:border-gray-700
+        bg-white dark:bg-dark-200
+        shadow-2xl
+        overflow-hidden
+      "
+    >
       {/* Header */}
-      <div className="flex items-center justify-between pb-4 border-b border-gray-200 dark:border-gray-700 mb-4">
-        <div>
-          <h3 className="font-semibold text-gray-800 dark:text-white">
-            Mock Interview — {jobRole}
-          </h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            Question {Math.min(questionNumber, 5)} of 5 •{" "}
-            <span className="capitalize">{difficulty}</span>
-          </p>
+      <div className="border-b border-gray-200 dark:border-gray-700 p-6">
+        <div className="flex items-center justify-between">
+          <div>
+            <h3 className="font-bold text-xl text-gray-900 dark:text-white">
+              AI Interview Session
+            </h3>
+
+            <p className="text-sm text-gray-500">{jobRole}</p>
+          </div>
+
+          <div className="rounded-2xl bg-indigo-50 dark:bg-indigo-900/20 px-4 py-2">
+            Question {Math.min(questionNumber, 5)} / 5
+          </div>
         </div>
-        {isComplete && (
-          <span className="badge-easy text-xs px-3 py-1">
-            ✅ Interview Complete
-          </span>
-        )}
+
+        <div className="mt-4 h-2 rounded-full bg-gray-100 dark:bg-dark-300">
+          <div
+            className="h-2 rounded-full bg-gradient-to-r from-indigo-600 to-purple-600"
+            style={{
+              width: `${Math.min((questionNumber / 5) * 100, 100)}%`,
+            }}
+          />
+        </div>
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto space-y-4 pr-1">
+      <div className="h-[520px] overflow-y-auto p-6 space-y-5">
         {messages.map((msg, index) => (
           <ChatBubble key={index} message={msg} />
         ))}
+
         {isLoading && (
-          <div className="flex items-center gap-2 text-gray-400 text-sm">
+          <div className="flex items-center gap-3 text-gray-500">
             <Loader2 size={16} className="animate-spin" />
-            Interviewer is typing...
+            AI Interviewer is typing...
           </div>
         )}
+
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
       {!isComplete && (
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-4">
-          <div className="flex gap-2">
+        <div className="border-t border-gray-200 dark:border-gray-700 p-5">
+          <div className="flex gap-3">
             <textarea
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Type your answer... (Enter to send)"
               rows={2}
-              disabled={isLoading || !isStarted}
-              className="input-field resize-none text-sm"
+              placeholder="Type your answer..."
+              disabled={isLoading}
+              className="
+                flex-1
+                rounded-2xl
+                border border-gray-200 dark:border-gray-700
+                bg-gray-50 dark:bg-dark-300
+                px-4 py-3
+                resize-none
+                focus:outline-none
+                focus:ring-2
+                focus:ring-indigo-500
+              "
             />
+
             <button
               onClick={handleSendAnswer}
               disabled={isLoading || !userInput.trim()}
-              className="btn-primary px-4 flex items-center justify-center flex-shrink-0"
+              className="
+                h-14 w-14
+                rounded-2xl
+                bg-gradient-to-r
+                from-indigo-600
+                to-purple-600
+                text-white
+                flex items-center justify-center
+                shadow-lg
+              "
             >
               {isLoading ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -189,18 +271,15 @@ const InterviewPanel = ({ jobRole, difficulty, onComplete }) => {
               )}
             </button>
           </div>
-          <p className="text-xs text-gray-400 mt-1.5">
-            Press Enter to send • Shift+Enter for new line
-          </p>
         </div>
       )}
 
-      {/* Complete Message */}
       {isComplete && (
-        <div className="pt-4 border-t border-gray-200 dark:border-gray-700 mt-4 text-center">
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Interview session complete! Review the feedback above.
-          </p>
+        <div className="border-t border-gray-200 dark:border-gray-700 p-6 text-center">
+          <div className="inline-flex items-center gap-2 rounded-2xl bg-green-100 dark:bg-green-900/20 px-4 py-2 text-green-600 font-semibold">
+            <Trophy size={18} />
+            Interview Completed Successfully
+          </div>
         </div>
       )}
     </div>

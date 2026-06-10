@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CheckCircle, Circle } from "lucide-react";
+import { CheckCircle, Circle, Sparkles, CheckCheck } from "lucide-react";
 
 const QuestionCard = ({
   question,
@@ -11,87 +11,180 @@ const QuestionCard = ({
   const getOptionStyle = (optionValue) => {
     if (!showResult) {
       if (selectedAnswer === optionValue) {
-        return "border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300";
+        return `
+          border-indigo-500
+          bg-indigo-50
+          dark:bg-indigo-900/20
+          shadow-lg
+          scale-[1.01]
+        `;
       }
-      return "border-gray-200 dark:border-gray-700 hover:border-primary-300 hover:bg-gray-50 dark:hover:bg-gray-800";
+
+      return `
+        border-gray-200
+        dark:border-gray-700
+        hover:border-indigo-300
+        hover:bg-gray-50
+        dark:hover:bg-dark-300
+      `;
     }
 
-    // Show result mode
     if (optionValue === question.answer) {
-      return "border-green-500 bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-300";
+      return `
+        border-green-500
+        bg-green-50
+        dark:bg-green-900/20
+      `;
     }
+
     if (selectedAnswer === optionValue && optionValue !== question.answer) {
-      return "border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-300";
+      return `
+        border-red-500
+        bg-red-50
+        dark:bg-red-900/20
+      `;
     }
-    return "border-gray-200 dark:border-gray-700 opacity-50";
+
+    return `
+      border-gray-200
+      dark:border-gray-700
+      opacity-60
+    `;
   };
 
   return (
     <motion.div
-      initial={{ opacity: 0, x: 20 }}
-      animate={{ opacity: 1, x: 0 }}
-      transition={{ duration: 0.3 }}
-      className="card"
+      initial={{ opacity: 0, y: 15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 250,
+      }}
+      className="
+        rounded-[28px]
+        border border-gray-200
+        dark:border-gray-700
+        bg-white
+        dark:bg-dark-200
+        shadow-xl
+        p-6
+      "
     >
-      {/* Question */}
-      <div className="mb-5">
-        <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wide">
-          Question {index + 1}
-        </span>
-        <p className="text-gray-800 dark:text-white font-medium text-lg mt-1 leading-relaxed">
-          {question.text}
-        </p>
+      {/* Header */}
+      <div className="flex items-center gap-3 mb-5">
+        <div
+          className="
+            h-12 w-12
+            rounded-2xl
+            bg-gradient-to-r
+            from-indigo-600
+            to-purple-600
+            flex items-center justify-center
+            text-white
+            shadow-lg
+          "
+        >
+          <Sparkles size={18} />
+        </div>
+
+        <div>
+          <p className="text-xs uppercase tracking-wider font-semibold text-indigo-600">
+            Question {index + 1}
+          </p>
+
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            Select the most appropriate answer
+          </p>
+        </div>
       </div>
+
+      {/* Question */}
+      <h2 className="text-xl font-bold text-gray-900 dark:text-white leading-relaxed mb-6">
+        {question.text}
+      </h2>
 
       {/* Options */}
       <div className="space-y-3">
         {question.options?.map((option) => (
-          <button
+          <motion.button
+            whileHover={!showResult ? { scale: 1.01 } : {}}
+            whileTap={!showResult ? { scale: 0.99 } : {}}
             key={option.value}
             onClick={() => !showResult && onSelect(question._id, option.value)}
             disabled={showResult}
-            className={`w-full flex items-center gap-3 p-4 rounded-xl border-2 text-left transition-all duration-200 ${getOptionStyle(
-              option.value
-            )}`}
+            className={`
+              w-full
+              flex items-center gap-4
+              rounded-2xl
+              border-2
+              p-4
+              text-left
+              transition-all duration-300
+              ${getOptionStyle(option.value)}
+            `}
           >
-            {/* Radio Icon */}
+            {/* Icon */}
             <div className="flex-shrink-0">
               {selectedAnswer === option.value ? (
                 <CheckCircle
-                  size={20}
+                  size={22}
                   className={
                     showResult
                       ? option.value === question.answer
                         ? "text-green-500"
                         : "text-red-500"
-                      : "text-primary-600"
+                      : "text-indigo-600"
                   }
                 />
               ) : (
-                <Circle size={20} className="text-gray-400" />
+                <Circle size={22} className="text-gray-400" />
               )}
             </div>
 
-            {/* Label */}
-            <span className="font-medium text-sm">
-              <span className="text-gray-400 mr-2">{option.label}.</span>
-              {option.value}
-            </span>
-          </button>
+            {/* Option Label */}
+            <div>
+              <span className="mr-2 text-xs font-bold text-gray-400">
+                {option.label}
+              </span>
+
+              <span className="font-medium text-gray-800 dark:text-gray-200">
+                {option.value}
+              </span>
+            </div>
+          </motion.button>
         ))}
       </div>
 
-      {/* Explanation (show result mode) */}
+      {/* Explanation */}
       {showResult && question.explanation && (
         <motion.div
-          initial={{ opacity: 0, height: 0 }}
-          animate={{ opacity: 1, height: "auto" }}
-          className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800"
+          initial={{
+            opacity: 0,
+            height: 0,
+          }}
+          animate={{
+            opacity: 1,
+            height: "auto",
+          }}
+          className="
+            mt-6
+            rounded-2xl
+            border border-blue-200
+            dark:border-blue-800
+            bg-blue-50
+            dark:bg-blue-900/20
+            p-5
+          "
         >
-          <p className="text-sm font-semibold text-blue-700 dark:text-blue-300 mb-1">
-            💡 Explanation
-          </p>
-          <p className="text-sm text-blue-600 dark:text-blue-400">
+          <div className="flex items-center gap-2 mb-2">
+            <CheckCheck size={18} className="text-blue-600" />
+
+            <h4 className="font-semibold text-blue-700 dark:text-blue-300">
+              Explanation
+            </h4>
+          </div>
+
+          <p className="text-sm leading-relaxed text-blue-600 dark:text-blue-400">
             {question.explanation}
           </p>
         </motion.div>

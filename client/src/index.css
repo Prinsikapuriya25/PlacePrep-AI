@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Remove default browser password eye */
+
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
+input[type="password"]::-webkit-credentials-auto-fill-button {
+  visibility: hidden;
+  display: none !important;
+  pointer-events: none;
+}
+
 @layer base {
   * {
     @apply box-border m-0 p-0;
