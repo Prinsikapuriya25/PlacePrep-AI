@@ -6,10 +6,6 @@
 
 ### AI-Powered Placement Preparation Platform
 
-# 🚀 PlacePrep AI
-
-### AI-Powered Placement Preparation Platform
-
 <p align="center">
 
 [![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://placeprep-ai-wheat.vercel.app)
@@ -112,8 +108,6 @@ PlacePrep AI is a full-stack AI-powered placement preparation platform built wit
 - Mock interview conversations
 - Resume analysis
 - Study roadmap generation
-
-
 
 ---
 
@@ -347,6 +341,18 @@ POST   /api/ai/roadmap        Generate study roadmap
 - 📧 Email Notifications
 - 🏢 Company-Specific Interview Tracks
 - 🤖 Advanced AI Career Guidance
+
+---
+
+## 🔐 Demo Credentials
+
+### Admin Access
+
+Email: admin@placeprep.com
+
+Password: admin@123
+
+ Demo account is provided for evaluation purposes only.
 
 ---
 
