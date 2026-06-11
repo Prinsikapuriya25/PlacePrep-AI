@@ -6,9 +6,43 @@
 
 ### AI-Powered Placement Preparation Platform
 
-Built with **React • Node.js • MongoDB • Tailwind CSS • OpenAI • Gemini**
+# 🚀 PlacePrep AI
 
-A modern full-stack AI-powered platform designed to help students crack placement interviews through smart quizzes, AI mock interviews, resume analysis, personalized study roadmaps, and performance tracking.
+### AI-Powered Placement Preparation Platform
+
+<p align="center">
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-success?style=for-the-badge)](https://placeprep-ai-wheat.vercel.app)
+[![Backend API](https://img.shields.io/badge/Backend-API-blue?style=for-the-badge)](https://placeprep-ai-k7ae.onrender.com)
+
+</p>
+
+<p align="center">
+
+![React](https://img.shields.io/badge/React.js-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-Authentication-orange?style=for-the-badge&logo=jsonwebtokens)
+![Groq AI](https://img.shields.io/badge/Groq_AI-LLaMA-purple?style=for-the-badge)
+
+</p>
+
+<p align="center">
+
+![Status](https://img.shields.io/badge/Status-Active-success?style=for-the-badge)
+![MERN Stack](https://img.shields.io/badge/MERN-FullStack-green?style=for-the-badge)
+![AI Powered](https://img.shields.io/badge/AI-Powered-blueviolet?style=for-the-badge)
+![Responsive](https://img.shields.io/badge/Responsive-Yes-success?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+
+</p>
+
+---
+
+## 🎯 Overview
+
+PlacePrep AI is a full-stack AI-powered placement preparation platform built with React.js, Node.js, Express.js, MongoDB, JWT Authentication, and Groq AI. The platform helps students prepare for placements through Smart Quizzes, AI Mock Interviews, Resume Analysis, Personalized Study Roadmaps, Leaderboards, and Performance Analytics.
 
 </div>
 
